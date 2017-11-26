@@ -315,29 +315,21 @@ function template_generic_menu_tabs(&$menu_context)
 	// Print out all the items in this tab (if any).
 	if (!empty($tab_context['tabs']))
 	{
-		// The admin tabs.
-		echo '
-					<ul id="adm_submenus">';
-
 		foreach ($tab_context['tabs'] as $sa => $tab)
 		{
 			if (!empty($tab['disabled']))
 				continue;
 
-			if (!empty($tab['is_selected']))
-				echo '
-						<li class="listlevel1">
-							<a class="linklevel1 active" href="', isset($tab['url']) ? $tab['url'] : $menu_context['base_url'] . ';area=' . $menu_context['current_area'] . ';sa=' . $sa, $menu_context['extra_parameters'], isset($tab['add_params']) ? $tab['add_params'] : '', '">', $tab['label'], '</a>
-						</li>';
-			else
-				echo '
-						<li class="listlevel1">
-							<a class="linklevel1" href="', isset($tab['url']) ? $tab['url'] : $menu_context['base_url'] . ';area=' . $menu_context['current_area'] . ';sa=' . $sa, $menu_context['extra_parameters'], isset($tab['add_params']) ? $tab['add_params'] : '', '">', $tab['label'], '</a>
-						</li>';
+			$tabs['links'][] = array(
+				'is_selected' => $tab['is_selected'] ? ' active' : '',
+				'url' => isset($tab['url']) ? $tab['url'] : $menu_context['base_url'],
+				'area' => $menu_context['current_area'],
+				'sa' => $sa . $menu_context['extra_parameters'] . isset($tab['add_params']) ? $tab['add_params'] : '',
+				'label' => $tab['label'],
+			);
 		}
 
-		// the end of tabs
-		echo '
-					</ul>';
+		$view = loadView('generic/menu');
+		echo $view->render('admin_tabs', $tabs);
 	}
 }

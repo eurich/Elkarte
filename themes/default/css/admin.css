@@ -473,7 +473,6 @@ fieldset dl {
 	margin: 0 .5em 0 6em;
 	font-size: 1.071em;
 	overflow: hidden;
-	white-space: pre;
 	text-overflow: ellipsis;
 	min-height: 1.6em;
 	max-height: 1.6em;

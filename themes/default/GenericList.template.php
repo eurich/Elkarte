@@ -240,18 +240,16 @@ function template_additional_rows($row_position, $cur_list)
  */
 function template_create_list_menu($list_menu)
 {
-	echo '
-		<ul class="generic_menu float', $list_menu['position'], empty($list_menu['class']) ? '' : ' ' . $list_menu['class'], '"', empty($list_menu['style']) ? '' : ' style="' . $list_menu['style'] . '"', '>';
-
+	$list_menu['styles'] = empty($list_menu['style']) ? '' : ' style="' . $list_menu['style'] . '"';
+	
 	foreach ($list_menu['links'] as $link)
 	{
-		echo '
-			<li class="listlevel1">
-				<a class="linklevel1', $link['is_selected'] ? ' active' : '', '" href="', !empty($link['href']) ? $link['href'] : '#', '">',
-				$link['label'], !empty($link['href']) ? '</a>' : '', '
-			</li>';
+		$list_menu['link'][] = array(
+			'is_selected' => $link['is_selected'] ? ' active' : '',
+			'label' => $link['label'],
+			'href' => !empty($link['href']) ? $link['href'] : '#',
+		);
 	}
-
-	echo '
-		</ul>';
+	$view = loadView('generic/list');
+	echo $view->render('create_list_menu', $list_menu);	
 }

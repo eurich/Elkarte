@@ -1888,7 +1888,32 @@ function loadEssentialThemeData()
  */
 function loadTemplate($template_name, $style_sheets = array(), $fatal = true)
 {
+	global $context;
+
 	return Templates::instance()->load($template_name, $style_sheets, $fatal);
+}
+function loadView($dir)
+{
+	global $settings;
+	
+	// Inject the Mustache loader..
+	require_once(SOURCEDIR . '/ext/Mustache/Autoloader.php');
+	Mustache_Autoloader::register();
+
+	if (empty($dir))
+		$dir = $settings['theme_dir'] . '/views';
+	else 
+		$dir =  $settings['theme_dir'] . '/views/' . $dir;
+
+	
+	$tpl = new Mustache_Engine(array(
+		'cache' => BOARDDIR . '/cache/mustache',
+		'cache_lambda_templates' => true,
+		'loader' => new Mustache_Loader_FilesystemLoader($dir , array('extension' => '.html')),
+		'partials_loader' => new Mustache_Loader_FilesystemLoader($dir, array('extension' => '.html')),
+		'charset' => 'UTF-8',
+	));
+	return $tpl;
 }
 
 /**
