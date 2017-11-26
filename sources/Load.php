@@ -1888,7 +1888,6 @@ function loadEssentialThemeData()
  */
 function loadTemplate($template_name, $style_sheets = array(), $fatal = true)
 {
-
 	return Templates::instance()->load($template_name, $style_sheets, $fatal);
 }
 function loadView($dir)
